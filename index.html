@@ -25,8 +25,8 @@
     }
     .number-button {
       font-size: 24px;
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       margin: 5px;
       background-color: #333333;
       color: #ffffff;
@@ -36,6 +36,18 @@
     }
     .number-button:hover {
       background-color: #555555;
+    }
+    #buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      margin: 0 auto;
+    }
+    #zero-button {
+      grid-column: span 3; /* 0を横幅いっぱいに広げる */
     }
     #message {
       margin-top: 20px;
@@ -68,13 +80,20 @@
     function createButtons() {
       const buttonsDiv = document.getElementById("buttons");
       buttonsDiv.innerHTML = ""; // ボタンをリセット
-      for (let i = 0; i <= 9; i++) {
+
+      // ボタン配置用の順番を指定
+      const buttonOrder = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0];
+
+      buttonOrder.forEach((num, index) => {
         const button = document.createElement("button");
         button.className = "number-button";
-        button.innerText = i;
-        button.onclick = () => handleInput(i);
+        if (num === 0) {
+          button.id = "zero-button"; // 特別なスタイルを適用するためのID
+        }
+        button.innerText = num;
+        button.onclick = () => handleInput(num);
         buttonsDiv.appendChild(button);
-      }
+      });
     }
 
     // 入力処理
