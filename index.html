@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiple</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #question {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    #input-area {
+      font-size: 24px;
+      margin-bottom: 20px;
+      height: 40px;
+    }
+    .number-button {
+      font-size: 24px;
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="question"></div>
+  <div id="input-area"></div>
+  <div id="buttons"></div>
+
+  <script>
+    let num1, num2, answer, currentInput = "";
+
+    // ランダムな掛け算問題を生成
+    function generateQuestion() {
+      num1 = Math.floor(Math.random() * 90) + 10; // 10〜99
+      num2 = Math.floor(Math.random() * 90) + 10; // 10〜99
+      answer = String(num1 * num2); // 答えを文字列に変換
+      currentInput = ""; // 入力をリセット
+      document.getElementById("question").innerText = `${num1} × ${num2} = ?`;
+      document.getElementById("input-area").innerText = "";
+    }
+
+    // 数字ボタンを作成
+    function createButtons() {
+      const buttonsDiv = document.getElementById("buttons");
+      buttonsDiv.innerHTML = ""; // ボタンをリセット
+      for (let i = 0; i <= 9; i++) {
+        const button = document.createElement("button");
+        button.className = "number-button";
+        button.innerText = i;
+        button.onclick = () => handleInput(i);
+        buttonsDiv.appendChild(button);
+      }
+    }
+
+    // 入力処理
+    function handleInput(num) {
+      currentInput += num; // 入力に追加
+      document.getElementById("input-area").innerText = currentInput;
+
+      if (currentInput === answer) {
+        // 正解なら次の問題へ
+        alert("正解！次の問題へ進みます");
+        generateQuestion();
+      } else if (!answer.startsWith(currentInput)) {
+        // 間違いなら入力をリセット
+        alert("不正解！入力をリセットします");
+        currentInput = "";
+        document.getElementById("input-area").innerText = "";
+      }
+    }
+
+    // 初期化
+    function init() {
+      generateQuestion();
+      createButtons();
+    }
+
+    init();
+  </script>
+</body>
+</html>
