@@ -120,10 +120,19 @@
       }
     }
 
+    // キーボード入力の処理
+    function handleKeyPress(event) {
+      const key = event.key;
+      if (key >= "0" && key <= "9") {
+        handleInput(key); // 数字キーの場合、ボタン入力と同じ処理
+      }
+    }
+
     // 初期化
     function init() {
       generateQuestion();
       createButtons();
+      document.addEventListener("keydown", handleKeyPress); // キーボード入力を監視
     }
 
     init();
