@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">  
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multiple</title>
+  <title>掛け算ゲーム</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
       margin-top: 50px;
+      background-color: #121212;
+      color: #ffffff;
     }
     #question {
       font-size: 24px;
@@ -26,6 +28,19 @@
       width: 50px;
       height: 50px;
       margin: 5px;
+      background-color: #333333;
+      color: #ffffff;
+      border: 1px solid #555555;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .number-button:hover {
+      background-color: #555555;
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 18px;
+      height: 24px;
     }
   </style>
 </head>
@@ -33,6 +48,7 @@
   <div id="question"></div>
   <div id="input-area"></div>
   <div id="buttons"></div>
+  <div id="message"></div>
 
   <script>
     let num1, num2, answer, currentInput = "";
@@ -45,6 +61,7 @@
       currentInput = ""; // 入力をリセット
       document.getElementById("question").innerText = `${num1} × ${num2} = ?`;
       document.getElementById("input-area").innerText = "";
+      document.getElementById("message").innerText = ""; // メッセージリセット
     }
 
     // 数字ボタンを作成
@@ -65,15 +82,22 @@
       currentInput += num; // 入力に追加
       document.getElementById("input-area").innerText = currentInput;
 
+      const messageDiv = document.getElementById("message");
+
       if (currentInput === answer) {
         // 正解なら次の問題へ
-        alert("正解！次の問題へ進みます");
-        generateQuestion();
+        messageDiv.innerText = "正解！次の問題を生成中...";
+        setTimeout(() => {
+          generateQuestion();
+        }, 1000); // 1秒後に次の問題を生成
       } else if (!answer.startsWith(currentInput)) {
         // 間違いなら入力をリセット
-        alert("不正解！入力をリセットします");
+        messageDiv.innerText = "不正解！入力をリセットしました。";
         currentInput = "";
         document.getElementById("input-area").innerText = "";
+      } else {
+        // 正解に近い場合はメッセージを空に
+        messageDiv.innerText = "";
       }
     }
 
